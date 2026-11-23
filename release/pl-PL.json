@@ -1659,6 +1659,8 @@
         "runsettimebetweenearthquakesdsc": "Zmienia średni czas między trzęsieniami ziemi",
         "runsettemperatureoffset": "Zmiany temperatury otoczenia",
         "runsettemperatureoffsetdsc": "O ile cieplejsza/zimniejsza ma być średnio temperatura",
+        "runsetallowlayerendmovement": "Allow movement at layer end",
+        "runsetallowlayerendmovementdsc": "If true, you will be allowed full movement when reaching the bottom of a layer. This is recommended to keep off, because being able to grab all the loot that collects at the bottom is unbalanced.",
         "runsetlockpickprecision": "Łagodność wytrychów",
         "runsetlockpickprecisiondsc": "Zmienia jak szeroki jest kąt precyzji podczas otwieraniu skrzynek ",
         "runsetambientlight": "Światło otoczenia",
@@ -1749,6 +1751,8 @@
         "gamesetclearerrecipesdsc": "Jeżeli włączone, lista przepisów w menu wytwarzania dostanie bardziej kontrastujące się kolory, ułatwiając odróżnienie przepisów wytwarzalnych od tych nie.",
         "gamesetinventoryuseleniency": "Użyj opuźnienia w ekwipunku",
         "gamesetinventoryuseleniencydsc": "To, ile czasu musi upłynąć od otworzenia ekwipunku zanim można używać przedmiotów. Przy niższych wartościach użyć ich można szybciej.",
+        "gamesetautocolorfavourite": "Auto-color favourited items",
+        "gamesetautocolorfavouritedsc": "If enabled, favourited items will automatically be colored yellow, similar to how the demo functions.",
         "gamesetskipintro": "Pomiń intro",
         "gamesetskipintrodsc": "Bo widziałeś już intro o jeden raz za dużo...",
         "gamesetrpc": "Integracja z discordem",
@@ -4202,6 +4206,9 @@
             "cargoimpale3": [
                 "I... I r-really did it... Well... I'll... Let's not get too confident... I think I can use that pod to return. Let's get to the surface."
             ],
+            "wwmrwrongway": [
+                "I don't think this is the right way... I should go towards the source of those weird pulses..."
+            ],
             "endlessloop0": [
                 "...Www-wh...what..? What? Why? What just... Why am I back here..? Hnn... What just happened..."
             ],
@@ -5078,6 +5085,9 @@
             "cargoimpale3": [
                 "Hh. Focus. Very well. It is only logical that this was an intended part of the plan. I shall proceed into this drill pod and head upwards."
             ],
+            "wwmrwrongway": [
+                "I must be going the wrong way. I must head towards the source of the pulses."
+            ],
             "endlessloop0": [
                 "...Hm. Hhm... Mhhhhmmmhh... Hhhhhmmm... O-okay. Not... N-not. What I. Was e-expecting. I must have done something wrong. I s-shall return and try once again."
             ],
@@ -5919,6 +5929,9 @@
             "cargoimpale3": [
                 "Hhr...n..mmm...du-ne can lea-ve..."
             ],
+            "wwmrwrongway": [
+                "Du-ne... Stu-pid. No wa-y."
+            ],
             "endlessloop0": [
                 "...Mmmrrnnngghh... Ngghh......a-gain?"
             ],
@@ -6215,7 +6228,6 @@
                 "Item3": "experiment"
             },
             {
-
                 "Item1": "Nie rozumiem dlaczego tu jesteśmy. Po co? Wiem, że powinienem odzyskać jakąś baterię czy coś. Przypuszczan że inni mają tą samą misję. Nie powinny być łatwiejsze sposoby na odzyskanie tego? Na logikę? Dlaczego wysyłać nas. Tęsknię za moimi znajomymi. Nie chcę umierać",
                 "Item2": "Sprites/noteDrawings/alone",
                 "Item3": "experiment"
@@ -6886,7 +6898,6 @@
             "Halo? Czy to działa?",
             "Czy cały czas pauzujesz aby usłyszeć co mam do powiedzenia?",
             "Gwiazdy cię obserwują.",
-            "\"Człowiek\" nie jest jedynym, co cię obserwuje.",
             "Tuż za tobą.",
             "To miejsce jest bardziej interesujące, niż potrafisz pojąć.",
             "Twoi nadzorcy nie mówią ci wszystkiego."
