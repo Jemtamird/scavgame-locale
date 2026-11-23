@@ -28,26 +28,28 @@ import {
   versions
 } from "./utils.mjs";
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-main().then(() => {
-  console.log();
-  process.exit(0);
-}).catch(err => {
-  if (err instanceof Error && err.code == 'ABORT_ERR')
-  {
+if (import.meta.main) {
+  main().then(() => {
     console.log();
     process.exit(0);
-  }
+  }).catch(err => {
+    if (err instanceof Error && err.code == 'ABORT_ERR')
+    {
+      console.log();
+      process.exit(0);
+    }
 
-  throw err;
-});
+    throw err;
+  });
+}
 
 async function main()
 {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
   if (await fs.stat(fsPath.join("tools", "diff.mjs"), { throwIfNoEntry: false }) === undefined)
   {
     console.log("Please run this from the repo root!");
@@ -70,7 +72,7 @@ async function main()
   await diff(targetVersion, targetLocale, detailLevel);
 }
 
-async function diff(targetVersion, targetLocale, detailLevel)
+export async function diff(targetVersion, targetLocale, detailLevel)
 {
   const versionedEnJson = {};
 
@@ -81,8 +83,6 @@ async function diff(targetVersion, targetLocale, detailLevel)
     if (enVersioned != null)
       versionedEnJson[version] = enVersioned;
   }
-
-  console.log("");
 
   const enJson = versionedEnJson[targetVersion];
 
@@ -107,15 +107,12 @@ async function diff(targetVersion, targetLocale, detailLevel)
       if (isCustomText(versionPath))
         continue; // These can have any text in them
 
-        const truePath = versionPath;
+      const truePath = versionPath;
       const original = getPath(enJsonVersion, truePath);
       const translation = getPath(targetJson, truePath);
       if (original != null)
       {
         if (original == translation) {
-          if (shouldRemainTheSame(truePath, original))
-            continue;
-
           if (!identicalKeys.includes(truePath))
             identicalKeys.push(truePath);
         }
@@ -132,11 +129,18 @@ async function diff(targetVersion, targetLocale, detailLevel)
     if (isCustomText(matchingPath))
       continue; // These can have any text in them
 
-      const original = getPath(enJson, matchingPath);
+    const original = getPath(enJson, matchingPath);
     const translation = getPath(targetJson, matchingPath);
     const formatDiff = getMissingFormatElements(original, translation);
     if (formatDiff != "")
       keysWithFormatIssues.push([matchingPath, formatDiff]);
+
+    if (original == translation && shouldRemainTheSame(matchingPath, original))
+    {
+      const index = identicalKeys.indexOf(matchingPath);
+      if (index != -1)
+        identicalKeys.splice(index, 1);
+    }
   }
 
   const incorrectTypes = new Set([...missing]).intersection(new Set([...extra]));
@@ -167,7 +171,7 @@ async function diff(targetVersion, targetLocale, detailLevel)
     detailsSection('Similar to EN.json (or previous versions of it)', [...identicalKeys], detailsTarget);
     detailsSection('Potential format issues', keysWithFormatIssues, formatDiff, (item) => item[0]);
   }
-  else {
+  else if (detailLevel == 0) {
     console.log('Missing items: ' + missingItems.length);
     console.log('Extra items: ' + extraItems.length);
     console.log('Incorrect types: ' + [...incorrectTypes].length);
@@ -175,19 +179,9 @@ async function diff(targetVersion, targetLocale, detailLevel)
     console.log('Similar to EN.json (or previous versions of it): ' + identicalKeys.length);
     console.log('Potential format issues: ' + keysWithFormatIssues.length);
   }
-
-  let charLength = 0;
-  let keysTotal = 0;
-  let approxWords = 0;
-
-  for (const path of enPaths)
-  {
-    charLength += getPath(enJson, path)?.length ?? 0;
-    keysTotal++;
-    approxWords += getPath(enJson, path).split(" ").filter(x => x.length > 0).length;
+  else {
+    console.log(`${targetLocale.toString().padEnd(25, ' ')} | ${missingItems.length.toString().padStart(4, ' ')} miss, ${extraItems.length.toString().padStart(4, ' ')} extra, ${identicalKeys.length.toString().padStart(4, ' ')} EN`);
   }
-
-  console.log("EN.json keys: " + keysTotal + ", character length:", charLength, "words:" + approxWords);
 }
 
 // Matches stuff like <color> and \n
